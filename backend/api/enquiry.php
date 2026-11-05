@@ -46,13 +46,13 @@ if ($errors) {
 
 // Rate limit: max 5 enquiries per IP per hour.
 $ip = client_ip();
-$recent = (int) DB::value('SELECT COUNT(*) FROM enquiries WHERE ip = ? AND created_at > (NOW() - INTERVAL 1 HOUR)', [$ip]);
+$recent = (int) DB::value('SELECT COUNT(*) FROM enquiries WHERE ip = ? AND created_at > ?', [$ip, date('Y-m-d H:i:s', time() - 3600)]);
 if ($recent >= 5) {
     json_response(['success' => false, 'message' => 'Too many enquiries from your network. Please call us instead.'], 429);
 }
 
 // Duplicate guard: same email + event date in the last 24 hours.
-$dup = DB::value('SELECT id FROM enquiries WHERE email = ? AND event_date = ? AND created_at > (NOW() - INTERVAL 1 DAY) LIMIT 1', [$data['email'], $data['event_date']]);
+$dup = DB::value('SELECT id FROM enquiries WHERE email = ? AND event_date = ? AND created_at > ? LIMIT 1', [$data['email'], $data['event_date'], date('Y-m-d H:i:s', time() - 86400)]);
 if ($dup) {
     json_response(['success' => false, 'message' => 'We already have your enquiry for this date. Our team will contact you soon.', 'errors' => ['email' => 'An enquiry for this date was already sent from this email.']], 409);
 }

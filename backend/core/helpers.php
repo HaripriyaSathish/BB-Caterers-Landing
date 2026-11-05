@@ -82,11 +82,8 @@ function setting(string $key, $default = '')
 
 function settings_save(array $values): void
 {
-    $stmt = DB::pdo()->prepare(
-        'INSERT INTO settings (`key`, `value`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)'
-    );
     foreach ($values as $k => $v) {
-        $stmt->execute([$k, $v]);
+        DB::upsert('settings', 'key', ['key' => $k, 'value' => $v === null ? null : (string) $v, 'updated_at' => date('Y-m-d H:i:s')]);
     }
     settings_all(true);
 }
@@ -163,11 +160,24 @@ function handle_upload(string $field, string $folder): ?string
         throw new RuntimeException('That file does not look like a valid image.');
     }
     $folder = preg_replace('/[^a-z0-9_-]/', '', strtolower($folder)) ?: 'misc';
+    $name = date('Ymd-His') . '-' . bin2hex(random_bytes(4)) . '.' . UPLOAD_MIME[$mime];
+
+    // Render: keep uploads in the database (served by media.php) because the disk is not persistent.
+    if (config('media_storage') === 'database') {
+        $path = MEDIA_DIR . '/uploads/' . $folder . '/' . $name;
+        DB::upsert('media_files', 'path', [
+            'path' => $path,
+            'mime' => $mime,
+            'size' => (int) $file['size'],
+            'data' => base64_encode((string) file_get_contents($file['tmp_name'])),
+        ]);
+        return $path;
+    }
+
     $dir = BASE_PATH . '/' . MEDIA_DIR . '/' . $folder;
     if (!is_dir($dir) && !mkdir($dir, 0775, true)) {
         throw new RuntimeException('Could not create the media folder.');
     }
-    $name = date('Ymd-His') . '-' . bin2hex(random_bytes(4)) . '.' . UPLOAD_MIME[$mime];
     if (!move_uploaded_file($file['tmp_name'], $dir . '/' . $name)) {
         throw new RuntimeException('Could not save the uploaded image.');
     }
@@ -178,6 +188,12 @@ function handle_upload(string $field, string $folder): ?string
 function delete_media(?string $path): void
 {
     if (!$path || !str_starts_with($path, MEDIA_DIR . '/')) {
+        return;
+    }
+    if (str_starts_with($path, MEDIA_DIR . '/uploads/') && config('media_storage') === 'database') {
+        if (media_reference_count($path) <= 1) {
+            DB::query('DELETE FROM media_files WHERE path = ?', [$path]);
+        }
         return;
     }
     $full = realpath(BASE_PATH . '/' . $path);

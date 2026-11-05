@@ -27,6 +27,13 @@ if ($path === '/admin') {
 }
 
 $file = __DIR__ . $path;
+
+// Uploads stored in the database (MEDIA_STORAGE=database) have no file on disk
+if (str_starts_with($path, '/media/uploads/') && !is_file($file)) {
+    $_GET['p'] = substr($path, strlen('/media/'));
+    require __DIR__ . '/media.php';
+    return true;
+}
 if (is_file($file) || is_file(rtrim($file, '/') . '/index.php')) {
     if (str_starts_with($path, '/media/')) {
         header('Cache-Control: public, max-age=604800');

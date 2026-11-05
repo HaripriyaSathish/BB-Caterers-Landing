@@ -8,7 +8,7 @@ $stats = [
     ['New enquiries', (int) DB::value("SELECT COUNT(*) FROM enquiries WHERE status='new'"), 'inbox', 'enquiries.php?status=new', 'gold'],
     ['Total enquiries', (int) DB::value('SELECT COUNT(*) FROM enquiries'), 'messages-square', 'enquiries.php', 'green'],
     ['Confirmed events', (int) DB::value("SELECT COUNT(*) FROM enquiries WHERE status='confirmed'"), 'calendar-check', 'enquiries.php?status=confirmed', 'green'],
-    ['This month', (int) DB::value("SELECT COUNT(*) FROM enquiries WHERE created_at >= DATE_FORMAT(CURDATE(), '%Y-%m-01')"), 'trending-up', 'enquiries.php', 'gold'],
+    ['This month', (int) DB::value('SELECT COUNT(*) FROM enquiries WHERE created_at >= ?', [date('Y-m-01 00:00:00')]), 'trending-up', 'enquiries.php', 'gold'],
 ];
 $content = [
     ['Hero slides', 'hero_slides', 'gallery-horizontal-end', 'module.php?m=hero'],
@@ -19,12 +19,12 @@ $content = [
     ['Testimonials', 'testimonials', 'message-square-quote', 'module.php?m=testimonials'],
 ];
 $recent = DB::all('SELECT id, name, event_type, event_date, guests, status, created_at FROM enquiries ORDER BY created_at DESC LIMIT 6');
-$upcoming = DB::all("SELECT id, name, event_type, event_date, guests, status FROM enquiries WHERE event_date >= CURDATE() AND status IN ('new','contacted','confirmed') ORDER BY event_date LIMIT 5");
+$upcoming = DB::all("SELECT id, name, event_type, event_date, guests, status FROM enquiries WHERE event_date >= ? AND status IN ('new','contacted','confirmed') ORDER BY event_date LIMIT 5", [date('Y-m-d')]);
 
 // Enquiries per day, last 14 days (for the mini chart)
 $daily = [];
-foreach (DB::all("SELECT DATE(created_at) d, COUNT(*) c FROM enquiries WHERE created_at >= CURDATE() - INTERVAL 13 DAY GROUP BY DATE(created_at)") as $r) {
-    $daily[$r['d']] = (int) $r['c'];
+foreach (DB::all('SELECT CAST(created_at AS DATE) d, COUNT(*) c FROM enquiries WHERE created_at >= ? GROUP BY CAST(created_at AS DATE)', [date('Y-m-d', strtotime('-13 day'))]) as $r) {
+    $daily[substr((string) $r['d'], 0, 10)] = (int) $r['c'];
 }
 $chart = [];
 for ($i = 13; $i >= 0; $i--) {

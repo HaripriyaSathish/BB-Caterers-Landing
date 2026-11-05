@@ -15,7 +15,8 @@ if (isset(STATUSES[$status])) {
     $params[] = $status;
 }
 if ($q !== '') {
-    $where[] = '(name LIKE ? OR email LIKE ? OR phone LIKE ? OR event_type LIKE ?)';
+    $like = DB::ilike();
+    $where[] = "(name $like ? OR email $like ? OR phone $like ? OR event_type $like ?)";
     array_push($params, "%$q%", "%$q%", "%$q%", "%$q%");
 }
 $whereSql = $where ? 'WHERE ' . implode(' AND ', $where) : '';

@@ -23,7 +23,7 @@ if (is_post()) {
 
     if ($action === 'reorder') {
         $ids = array_map('intval', (array) ($_POST['ids'] ?? []));
-        $stmt = DB::pdo()->prepare("UPDATE `$table` SET sort_order = ? WHERE id = ?");
+        $stmt = DB::prepare("UPDATE `$table` SET sort_order = ? WHERE id = ?");
         foreach ($ids as $i => $id) {
             $stmt->execute([$i + 1, $id]);
         }

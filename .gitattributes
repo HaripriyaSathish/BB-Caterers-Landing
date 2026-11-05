@@ -1,0 +1,4 @@
+# Keep Linux line endings for files used inside the Docker container
+*.sh text eol=lf
+Dockerfile text eol=lf
+deploy/* text eol=lf

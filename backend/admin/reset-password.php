@@ -6,7 +6,7 @@ require __DIR__ . '/partials/auth-layout.php';
 
 $token = (string) ($_GET['token'] ?? $_POST['token'] ?? '');
 $admin = preg_match('/^[a-f0-9]{64}$/', $token)
-    ? DB::one('SELECT * FROM admins WHERE reset_token_hash = ? AND reset_expires_at > NOW()', [hash('sha256', $token)])
+    ? DB::one('SELECT * FROM admins WHERE reset_token_hash = ? AND reset_expires_at > ?', [hash('sha256', $token), date('Y-m-d H:i:s')])
     : null;
 
 if (!$admin) {

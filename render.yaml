@@ -1,0 +1,23 @@
+# Render Blueprint — one web service serving the React site + PHP API/admin on a single URL.
+# Secret values (DATABASE_URL, APP_KEY) are entered in the Render dashboard, never committed.
+services:
+  - type: web
+    name: bb-caterers
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/site.php
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        sync: false          # paste your Neon connection string in the dashboard
+      - key: APP_KEY
+        sync: false          # same value as APP_KEY in your local backend/.env
+      - key: MEDIA_STORAGE
+        value: database
+      - key: FRONTEND_URL
+        value: /
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_TIMEZONE
+        value: Asia/Kolkata

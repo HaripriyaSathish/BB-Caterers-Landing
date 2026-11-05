@@ -19,8 +19,8 @@ if (is_post()) {
     $password = (string) ($_POST['password'] ?? '');
 
     $attempts = (int) DB::value(
-        'SELECT COUNT(*) FROM login_attempts WHERE ip = ? AND attempted_at > (NOW() - INTERVAL ' . LOCK_MINUTES . ' MINUTE)',
-        [$ip]
+        'SELECT COUNT(*) FROM login_attempts WHERE ip = ? AND attempted_at > ?',
+        [$ip, date('Y-m-d H:i:s', time() - LOCK_MINUTES * 60)]
     );
     if ($attempts >= MAX_ATTEMPTS) {
         flash('error', 'Too many failed attempts. Please wait ' . LOCK_MINUTES . ' minutes and try again.');

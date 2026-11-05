@@ -24,6 +24,7 @@ $nav = [
         ['module.php?m=events', $mods['events']['title'], $mods['events']['icon'], null],
         ['module.php?m=features', $mods['features']['title'], $mods['features']['icon'], null],
         ['module.php?m=testimonials', $mods['testimonials']['title'], $mods['testimonials']['icon'], null],
+        ['module.php?m=faqs', $mods['faqs']['title'], $mods['faqs']['icon'], null],
         ['section.php?g=contact', $groups['contact']['title'], $groups['contact']['icon'], null],
         ['section.php?g=footer', 'CTA & Footer', $groups['footer']['icon'], null],
         ['section.php?g=floating', $groups['floating']['title'], $groups['floating']['icon'], null],

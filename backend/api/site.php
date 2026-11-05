@@ -47,7 +47,7 @@ $castInt = function (array $rows, array $fields): array {
     return $rows;
 };
 
-$events = $withImage($castInt($active('events', 'id, title, image, icon'), ['id']));
+$events = $withImage($castInt($active('events', 'id, title, description, image, alt_text, icon'), ['id']));
 
 // Always fresh so admin changes appear immediately (the response is small)
 header('Cache-Control: no-cache, must-revalidate');
@@ -58,14 +58,18 @@ json_response([
         'settings'     => $settings,
         'menu'         => $castInt($active('menu_items', 'id, label, url'), ['id']),
         'hero'         => $withImage($castInt($active('hero_slides', 'id, eyebrow, title, subtitle, image, btn1_text, btn1_link, btn2_text, btn2_link'), ['id'])),
-        'services'     => $withImage($castInt($active('services', 'id, title, description, image, icon'), ['id'])),
-        'gallery'      => $withImage($castInt($active('gallery', 'id, title, image, layout'), ['id'])),
+        'services'     => $withImage($castInt($active('services', 'id, title, description, image, alt_text, icon'), ['id'])),
+        'gallery'      => $withImage($castInt($active('gallery', 'id, title, image, alt_text, layout'), ['id'])),
         'highlights'   => $castInt($active('highlights', 'id, title, icon'), ['id']),
         'events'       => $events,
         'features'     => $castInt($active('features', 'id, title, description, icon'), ['id']),
+        'faqs'         => $castInt($active('faqs', 'id, question, answer'), ['id']),
         'testimonials' => $withImage($castInt($active('testimonials', 'id, name, role, message, rating, photo'), ['id', 'rating']), 'photo'),
         // Options for the enquiry form "Event type" select
-        'event_types'  => array_merge(array_column($events, 'title'), ['Other']),
+        'event_types'  => (function () {
+            require_once __DIR__ . '/../core/validation.php';
+            return enquiry_event_types();
+        })(),
         // Same limits the server enforces — the React form mirrors these
         'form_rules'   => (function () {
             require_once __DIR__ . '/../core/validation.php';

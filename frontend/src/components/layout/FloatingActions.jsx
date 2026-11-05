@@ -11,15 +11,15 @@ export default function FloatingActions({ settings: s }) {
 
   const buttons = [
     s.float_whatsapp_enabled && wa && {
-      key: 'whatsapp', label: 'Chat on WhatsApp', icon: <WhatsAppIcon size={28} />,
+      key: 'whatsapp', label: s.float_whatsapp_label || `Chat with ${s.site_name} on WhatsApp`, icon: <WhatsAppIcon size={28} />,
       href: `https://wa.me/${wa}?text=${encodeURIComponent(waText)}`, external: true,
     },
     s.float_instagram_enabled && s.contact_instagram_url && {
-      key: 'instagram', label: 'Follow us on Instagram', icon: <InstagramIcon size={24} />,
+      key: 'instagram', label: s.float_instagram_label || `${s.site_name} on Instagram`, icon: <InstagramIcon size={24} />,
       href: s.contact_instagram_url, external: true,
     },
     s.float_call_enabled && s.contact_phone && {
-      key: 'call', label: `Call ${s.contact_phone}`, icon: <PhoneIcon size={22} />,
+      key: 'call', label: s.float_call_label || `Call ${s.site_name} on ${s.contact_phone}`, icon: <PhoneIcon size={22} />,
       href: telHref(s.contact_phone),
     },
   ].filter(Boolean)

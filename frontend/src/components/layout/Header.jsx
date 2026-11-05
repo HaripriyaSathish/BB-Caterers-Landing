@@ -7,7 +7,7 @@ export function Brand({ settings, light = false }) {
   const [first, ...rest] = (settings.site_name || 'BB Caterers').split(' ')
   return (
     <span className={`brand ${light ? 'brand--light' : ''}`}>
-      {settings.logo && <img className="brand__logo" src={settings.logo} alt={settings.site_name} width="148" height="105" />}
+      {settings.logo && <img className="brand__logo" src={settings.logo} alt={settings.logo_alt || settings.site_name} width="148" height="105" />}
       <span className="brand__text">
         <span className="brand__name">
           <span className="brand__first">{first}</span> {rest.join(' ')}

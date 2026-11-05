@@ -22,9 +22,17 @@ function enquiry_rules(): array
     ];
 }
 
-/** Allowed "Event type" values: active event titles + Other. */
+/**
+ * Allowed "Event type" values: the list in Admin → Contact Section (one per line),
+ * or — when that is empty — the active event titles + Other.
+ */
 function enquiry_event_types(): array
 {
+    $lines = preg_split('/\R/', (string) setting('contact_event_types', ''));
+    $custom = array_values(array_unique(array_filter(array_map('trim', $lines), 'strlen')));
+    if ($custom) {
+        return $custom;
+    }
     $titles = DB::all('SELECT title FROM events WHERE is_active = 1 ORDER BY sort_order, id');
     return array_merge(array_column($titles, 'title'), ['Other']);
 }

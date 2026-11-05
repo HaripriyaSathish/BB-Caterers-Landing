@@ -75,6 +75,7 @@ CREATE TABLE IF NOT EXISTS `services` (
   `title`       VARCHAR(120) NOT NULL,
   `description` VARCHAR(255) NULL,
   `image`       VARCHAR(255) NULL,
+  `alt_text`    VARCHAR(255) NULL,
   `icon`        VARCHAR(50)  NULL,
   `sort_order`  INT          NOT NULL DEFAULT 0,
   `is_active`   TINYINT(1)   NOT NULL DEFAULT 1,
@@ -86,6 +87,7 @@ CREATE TABLE IF NOT EXISTS `gallery` (
   `id`         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `title`      VARCHAR(120) NULL,
   `image`      VARCHAR(255) NOT NULL,
+  `alt_text`   VARCHAR(255) NULL,
   `layout`     ENUM('normal','wide','tall','large') NOT NULL DEFAULT 'normal',
   `sort_order` INT          NOT NULL DEFAULT 0,
   `is_active`  TINYINT(1)   NOT NULL DEFAULT 1,
@@ -106,7 +108,9 @@ CREATE TABLE IF NOT EXISTS `highlights` (
 CREATE TABLE IF NOT EXISTS `events` (
   `id`         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `title`      VARCHAR(120) NOT NULL,
+  `description` VARCHAR(255) NULL,
   `image`      VARCHAR(255) NULL,
+  `alt_text`   VARCHAR(255) NULL,
   `icon`       VARCHAR(50)  NULL,
   `sort_order` INT          NOT NULL DEFAULT 0,
   `is_active`  TINYINT(1)   NOT NULL DEFAULT 1,
@@ -123,6 +127,16 @@ CREATE TABLE IF NOT EXISTS `features` (
   `is_active`   TINYINT(1)   NOT NULL DEFAULT 1,
   `created_at`  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at`  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `faqs` (
+  `id`         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `question`   VARCHAR(255) NOT NULL,
+  `answer`     TEXT         NOT NULL,
+  `sort_order` INT          NOT NULL DEFAULT 0,
+  `is_active`  TINYINT(1)   NOT NULL DEFAULT 1,
+  `created_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `testimonials` (
@@ -173,10 +187,10 @@ INSERT IGNORE INTO `settings` (`key`,`value`) VALUES
 ('apple_touch_icon','media/branding/apple-touch-icon.png'),
 ('header_cta_text','Get a Quote'),
 ('header_cta_link','#contact'),
-('meta_title','BB Caterers — Authentic Indian Catering | Bharatha Bhojanam'),
+('meta_title','Indian Catering Services in Fontana, CA | BB Caterers'),
 ('meta_keywords','catering services, south indian catering, indian catering, wedding catering, live dosa station, live chaat counter, podi varieties, diwali sweets and snacks, corporate catering, party catering, traditional food, BB Caterers, Bharatha Bhojanam'),
 ('og_image','media/hero/hero-1.webp'),
-('meta_description','Authentic Indian catering — live dosa stations, live snacks, podi varieties, festive sweets and traditional feasts, freshly prepared for every celebration.'),
+('meta_description','BB Caterers offers authentic Indian catering in Fontana, CA: live dosa stations, chaat, snacks and sweets for weddings, parties and corporate events.'),
 ('theme_page_bg','media/decor/page-bg.webp'),
 ('theme_divider','media/decor/lotus-divider.png'),
 ('theme_flourish','media/decor/leaf-flourish.png'),
@@ -186,25 +200,25 @@ INSERT IGNORE INTO `settings` (`key`,`value`) VALUES
 ('about_enabled','1'),
 ('about_eyebrow','About BB Caterers'),
 ('about_title','Tradition Served with Excellence.'),
-('about_text','Bharatha Bhojanam means "the food of Bharat". At BB Caterers, we bring generations-old recipes to your table — slow-ground podis, crisp dosas off the tawa, and festive sweets made the way our grandmothers made them.'),
-('about_text_2','Every menu is cooked fresh, served with warmth, and designed around your celebration.'),
+('about_text','Bharatha Bhojanam means “the food of Bharat”. BB Caterers is a Fontana, CA caterer bringing generations-old recipes to your table: slow-ground podis, crisp dosas off the tawa, and festive sweets made the way our grandmothers made them.'),
+('about_text_2','As an Indian food catering service focused on South Indian catering, we cook every menu fresh, serve it with warmth and design it around your celebration, whether it is a wedding, a birthday party or a corporate event.'),
 ('about_image_1','media/about/about-1.webp'),
 ('about_image_2','media/about/about-2.webp'),
 -- Services
 ('services_enabled','1'),
 ('services_eyebrow','Our Specialities'),
-('services_title','A Culinary Experience Like No Other'),
+('services_title','South Indian Flavours, Made Fresh for Your Celebration'),
 -- Gallery
 ('gallery_enabled','1'),
-('gallery_eyebrow','Food Gallery'),
-('gallery_title','A Feast for the Eyes.'),
+('gallery_eyebrow','Our Gallery'),
+('gallery_title','A Taste of Our Catering, Served Fresh'),
 -- Highlight banner
 ('highlight_enabled','1'),
 ('highlight_title','The Art of Authentic Indian Catering'),
 ('highlight_image','media/highlight/banner.webp'),
 -- Events
 ('events_enabled','1'),
-('events_title','Made for *Moments* Worth *Celebrating*'),
+('events_title','Made for *moments* worth *celebrating*.'),
 -- Why choose us
 ('features_enabled','1'),
 ('features_eyebrow','Why Choose Us'),
@@ -217,7 +231,7 @@ INSERT IGNORE INTO `settings` (`key`,`value`) VALUES
 ('contact_enabled','1'),
 ('contact_eyebrow','Contact & Enquiry'),
 ('contact_title','Let''s Create Something Delicious.'),
-('contact_text','Tell us about your celebration and we''ll craft a menu just for you.'),
+('contact_text','Tell us about your wedding, party or corporate event and we’ll craft a catering menu just for you in Fontana, CA.'),
 ('contact_phone','840 239 9450'),
 ('contact_email','hello@bblcaterers.in'),
 ('contact_instagram','@bharatha_bhojanam_bbcaterers'),
@@ -235,7 +249,7 @@ INSERT IGNORE INTO `settings` (`key`,`value`) VALUES
 ('cta_button_text','Let''s Talk Catering'),
 ('cta_button_link','#contact'),
 -- Footer
-('footer_about','Authentic Indian catering — live stations, festive sweets and traditional feasts, freshly prepared for every celebration.'),
+('footer_about','Authentic Indian catering in Fontana, CA, featuring live dosa stations, chaat, festive sweets and traditional South Indian favourites for weddings, parties and special celebrations.'),
 ('footer_copyright','© {year} BB Caterers · Bharatha Bhojanam. All rights reserved.'),
 ('footer_credit','Designed & Developed by'),
 ('footer_credit_link_text','Vetri IT Systems'),
@@ -259,30 +273,50 @@ INSERT IGNORE INTO `settings` (`key`,`value`) VALUES
 ('smtp_notify_email','hello@bblcaterers.in'),
 ('smtp_autoreply','1');
 
+-- SEO content (BB_Caterers_SEO_Content document)
+INSERT IGNORE INTO `settings` (`key`,`value`) VALUES
+('logo_alt','BB Caterers (Bharatha Bhojanam) – Indian catering services in Fontana, CA'),
+('services_intro','Discover Indian catering services built around South Indian favourites: live dosa stations, snacks, podi varieties, festive sweets and chaat, all prepared fresh for your celebration in Fontana, CA.'),
+('services_intro_2','Whether you''re planning a family function or a large gathering, we customise every menu around your guests, with vegetarian and South Indian options available.'),
+('highlight_text','Indian catering built on traditional recipes, quality ingredients and freshly prepared food.'),
+('highlight_image_alt','Plated Indian feast with a colourful variety of traditional dishes'),
+('faq_enabled','1'),
+('faq_eyebrow','Frequently Asked Questions'),
+('faq_title','Catering Questions, Answered.'),
+('faq_text','Planning a wedding, birthday party or corporate event? Find answers about our menus, live stations and quotes below, or contact our team for help.'),
+('contact_event_types','Wedding / Reception
+Birthday / Private Party
+Corporate Event
+Festival / Special Occasion
+Other'),
+('float_whatsapp_label','Chat with BB Caterers on WhatsApp'),
+('float_instagram_label','BB Caterers on Instagram'),
+('float_call_label','Call BB Caterers on 840 239 9450');
+
 INSERT IGNORE INTO `menu_items` (`id`,`label`,`url`,`sort_order`) VALUES
 (1,'Home','#home',1),(2,'About','#about',2),(3,'Services','#services',3),(4,'Gallery','#gallery',4),(5,'Contact','#contact',5);
 
 INSERT IGNORE INTO `hero_slides` (`id`,`eyebrow`,`title`,`subtitle`,`image`,`btn1_text`,`btn1_link`,`btn2_text`,`btn2_link`,`sort_order`) VALUES
-(1,'Traditional Indian Feast','Authentic Indian Flavours. Crafted for Every Celebration.','Experience the richness of traditional Indian cuisine with freshly prepared delicacies.','media/hero/hero-1.webp','Explore Our Services','#services','Plan Your Event','#contact',1),
-(2,'Live Food Experiences','Freshly Made. Perfectly Served.','Bring the excitement of freshly prepared live food stations to your celebrations.','media/hero/hero-2.webp','Explore Our Services','#services','Plan Your Event','#contact',2),
-(3,'Festive Specials','Sweets, Snacks & Feasts for Every Festival.','Handcrafted festive treats and traditional menus made the way they always have been.','media/hero/hero-3.webp','Explore Our Services','#services','Plan Your Event','#contact',3);
+(1,'Traditional Indian Feast','Authentic Indian Catering. Crafted for Every Celebration','Traditional Indian dishes, live food stations and festive favourites, freshly prepared for weddings, parties and corporate events.','media/hero/hero-1.webp','Explore Our Services','#services','Plan Your Event','#contact',1),
+(2,'Live Food Experiences','Freshly Made. Perfectly Served.','Bring the excitement of a live dosa station and freshly prepared snacks to your celebration, cooked fresh and served hot to your guests.','media/hero/hero-2.webp','Explore Our Services','#services','Plan Your Event','#contact',2),
+(3,'Festive Specials','Traditional Indian Sweets, Snacks & Festive Feasts','Handcrafted festive treats and traditional menus made the way they always have been, from Diwali sweets to full festive feasts.','media/hero/hero-3.webp','Explore Our Services','#services','Plan Your Event','#contact',3);
 
-INSERT IGNORE INTO `services` (`id`,`title`,`description`,`image`,`icon`,`sort_order`) VALUES
-(1,'Live Dosa Stations','Crispy dosas, chutneys and sambar.','media/services/live-dosa.webp','concierge-bell',1),
-(2,'Live Snacks','Traditional snacks and savouries.','media/services/live-snacks.webp','flame',2),
-(3,'Podi Varieties','Authentic podi selections.','media/services/podi.webp','soup',3),
-(4,'Diwali Sweets & Snacks','Traditional festive treats.','media/services/sweets.webp','laddoo',4),
-(5,'Live Chaat','Pani puri, bhel puri and more.','media/services/live-chaat.webp','salad',5);
+INSERT IGNORE INTO `services` (`id`,`title`,`description`,`image`,`alt_text`,`icon`,`sort_order`) VALUES
+(1,'Live Dosa Stations','Fresh dosas made live and served hot with chutneys and sambar.','media/services/live-dosa.webp','Masala dosa with chutneys and sambar – live dosa station catering','concierge-bell',1),
+(2,'Live Snacks','Fresh South Indian snacks and savouries, prepared at your event.','media/services/live-snacks.webp','Brass bowls of traditional South Indian snacks and savouries','flame',2),
+(3,'Podi Varieties','Traditional podis made to complement idli, dosa and rice.','media/services/podi.webp','Brass bowls of colourful podi and spice powders','soup',3),
+(4,'Diwali Sweets & Snacks','Handcrafted Indian sweets and festive favourites for every celebration.','media/services/sweets.webp','Laddus and murukku in brass bowls – Indian sweets and snacks for Diwali','laddoo',4),
+(5,'Live Chaat','Fresh pani puri, bhel puri and more at a live chaat counter.','media/services/live-chaat.webp','Colourful bowl of chaat – live chaat catering','salad',5);
 
-INSERT IGNORE INTO `gallery` (`id`,`title`,`image`,`layout`,`sort_order`) VALUES
-(1,'Masala dosa with chutneys','media/gallery/dosa-plate.webp','large',1),
-(2,'Pani puri and bhel puri','media/gallery/chaat.webp','tall',2),
-(3,'Podi and idli','media/gallery/spice-bowls.webp','normal',3),
-(4,'Vada, bajji and bonda','media/gallery/vadas.webp','normal',4),
-(5,'Festive sweets and snacks','media/gallery/festive-sweets.webp','wide',5),
-(6,'Curry Feast','media/gallery/curry-feast.webp','normal',6),
-(7,'Traditional banana leaf meal','media/events/private.webp','normal',7),
-(8,'Wedding buffet spread','media/gallery/buffet.webp','normal',8);
+INSERT IGNORE INTO `gallery` (`id`,`title`,`image`,`alt_text`,`layout`,`sort_order`) VALUES
+(1,'Masala dosa with chutneys','media/gallery/dosa-plate.webp','Crisp masala dosa served with chutneys and sambar – dosa catering by BB Caterers','large',1),
+(2,'Pani puri and bhel puri','media/gallery/chaat.webp','Live chaat with bhel and pani puri – chaat catering for parties and weddings','tall',2),
+(3,'Podi and idli','media/gallery/spice-bowls.webp','Brass bowls of podi and spice powders – traditional podi varieties','normal',3),
+(4,'Vada, bajji and bonda','media/gallery/vadas.webp','Medu vada on a banana leaf with chutney – South Indian snacks catering','normal',4),
+(5,'Festive sweets and snacks','media/gallery/festive-sweets.webp','Laddus and murukku in brass bowls – Indian sweets catering for festivals','wide',5),
+(6,'Curry Feast','media/gallery/curry-feast.webp',NULL,'normal',6),
+(7,'Traditional banana leaf meal','media/events/private.webp','Traditional South Indian meal on a banana leaf with rice, papad and sides – vegetarian catering','normal',7),
+(8,'Wedding buffet spread','media/gallery/buffet.webp','Wedding buffet spread in brass serving vessels with marigold garlands – wedding catering in Fontana, CA','normal',8);
 UPDATE `gallery` SET `is_active` = 0 WHERE `id` = 6 AND `created_at` = `updated_at`;  -- Figma grid shows 7 photos
 
 INSERT IGNORE INTO `highlights` (`id`,`title`,`icon`,`sort_order`) VALUES
@@ -291,19 +325,26 @@ INSERT IGNORE INTO `highlights` (`id`,`title`,`icon`,`sort_order`) VALUES
 (3,'Quality Ingredients','gem',3),
 (4,'Memorable Food Experiences','users',4);
 
-INSERT IGNORE INTO `events` (`id`,`title`,`image`,`icon`,`sort_order`) VALUES
-(1,'Weddings & Receptions','media/events/weddings.webp','rings',1),
-(2,'Private Celebrations','media/events/private.webp','hand-platter',2),
-(3,'Corporate Gatherings','media/events/corporate.webp','users',3),
-(4,'Festivals & Special Occasions','media/events/festivals.webp','gift',4);
+INSERT IGNORE INTO `events` (`id`,`title`,`description`,`image`,`alt_text`,`icon`,`sort_order`) VALUES
+(1,'Weddings & Receptions','Wedding catering with traditional menus, live stations and festive sweets, planned around your celebration and guests.','media/events/weddings.webp','Wedding catering buffet with brass serving vessels and marigold garlands','rings',1),
+(2,'Private Celebrations','Birthday and private party catering with live snacks, chaat and traditional South Indian favourites.','media/events/private.webp','Traditional South Indian meal served on a banana leaf for a private celebration','hand-platter',2),
+(3,'Corporate Gatherings','Corporate catering with live stations and traditional menus for team events, celebrations and business gatherings.','media/events/corporate.webp','Vada, bonda and banana chips on a banana leaf for a corporate gathering','users',3),
+(4,'Festivals & Special Occasions','Indian sweets, snacks and traditional feasts, freshly prepared for Diwali and special celebrations.','media/events/festivals.webp','Laddus, murukku and festive sweets in brass bowls for Diwali and special occasions','gift',4);
 
 INSERT IGNORE INTO `features` (`id`,`title`,`description`,`icon`,`sort_order`) VALUES
-(1,'Expert Culinary Team','Crafted by skilled chefs','chef-hat',1),
-(2,'Fresh & Healthy Food','Pure ingredients, better taste','leaf',2),
-(3,'Customised Menus','Tailored to your needs','concierge-bell',3),
-(4,'Professional Service','With care & dedication','users',4),
-(5,'Memorable Experience','For your special moments','award-star',5),
-(6,'Trusted Partner','For all your catering needs','handshake',6);
+(1,'Expert Culinary Team','Skilled chefs preparing authentic South Indian dishes from traditional recipes.','chef-hat',1),
+(2,'Fresh & Healthy Food','Pure ingredients, better taste. Every dish is prepared fresh for your event.','leaf',2),
+(3,'Customised Menus','Menus tailored to your needs, your guests and your occasion, including vegetarian options.','concierge-bell',3),
+(4,'Professional Service','Professional, attentive service from enquiry to final serving.','users',4),
+(5,'Memorable Experience','For your special moments, from weddings to birthday parties.','award-star',5),
+(6,'Trusted Partner','A trusted local caterer for all your catering needs in Fontana, CA.','handshake',6);
+
+INSERT IGNORE INTO `faqs` (`id`,`question`,`answer`,`sort_order`) VALUES
+(1,'What types of events do you cater?','BB Caterers provides Indian catering for weddings and receptions, birthday and private parties, corporate gatherings, and festivals and special occasions in Fontana, CA and nearby areas.',1),
+(2,'Do you offer Indian wedding catering?','Yes. Our Indian wedding catering includes traditional South Indian menus, live food stations and festive sweets, planned around your ceremony, reception and guest list.',2),
+(3,'What is a live dosa station, and can I add one to my event?','A live dosa station is a counter where our team prepares dosas fresh and serves them hot with chutneys and sambar. It is a popular choice for weddings, parties and corporate events.',3),
+(4,'Do you offer vegetarian catering?','Yes. Our South Indian menus include a variety of vegetarian dishes, and we can create a fully vegetarian menu based on your event and guest preferences.',4),
+(5,'How do I get a catering quote?','Fill in the enquiry form or contact BB Caterers with your event date, event type, number of guests and menu preferences. We recommend contacting us early for weddings and festival seasons.',5);
 
 INSERT IGNORE INTO `testimonials` (`id`,`name`,`role`,`message`,`rating`,`sort_order`) VALUES
 (1,'Anita Sharma','Wedding Reception','Exceptional taste and excellent service!',5,1),

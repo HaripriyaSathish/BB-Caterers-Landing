@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS services (
   title       VARCHAR(120) NOT NULL,
   description VARCHAR(255) NULL,
   image       VARCHAR(255) NULL,
+  alt_text    VARCHAR(255) NULL,
   icon        VARCHAR(50)  NULL,
   sort_order  INTEGER      NOT NULL DEFAULT 0,
   is_active   SMALLINT     NOT NULL DEFAULT 1,
@@ -73,6 +74,7 @@ CREATE TABLE IF NOT EXISTS gallery (
   id         SERIAL PRIMARY KEY,
   title      VARCHAR(120) NULL,
   image      VARCHAR(255) NOT NULL,
+  alt_text   VARCHAR(255) NULL,
   layout     VARCHAR(10)  NOT NULL DEFAULT 'normal' CHECK (layout IN ('normal','wide','tall','large')),
   sort_order INTEGER      NOT NULL DEFAULT 0,
   is_active  SMALLINT     NOT NULL DEFAULT 1,
@@ -93,7 +95,9 @@ CREATE TABLE IF NOT EXISTS highlights (
 CREATE TABLE IF NOT EXISTS events (
   id         SERIAL PRIMARY KEY,
   title      VARCHAR(120) NOT NULL,
+  description VARCHAR(255) NULL,
   image      VARCHAR(255) NULL,
+  alt_text   VARCHAR(255) NULL,
   icon       VARCHAR(50)  NULL,
   sort_order INTEGER      NOT NULL DEFAULT 0,
   is_active  SMALLINT     NOT NULL DEFAULT 1,
@@ -111,6 +115,22 @@ CREATE TABLE IF NOT EXISTS features (
   created_at  TIMESTAMP(0) NOT NULL DEFAULT LOCALTIMESTAMP(0),
   updated_at  TIMESTAMP(0) NOT NULL DEFAULT LOCALTIMESTAMP(0)
 );
+
+CREATE TABLE IF NOT EXISTS faqs (
+  id         SERIAL PRIMARY KEY,
+  question   VARCHAR(255) NOT NULL,
+  answer     TEXT         NOT NULL,
+  sort_order INTEGER      NOT NULL DEFAULT 0,
+  is_active  SMALLINT     NOT NULL DEFAULT 1,
+  created_at TIMESTAMP(0) NOT NULL DEFAULT LOCALTIMESTAMP(0),
+  updated_at TIMESTAMP(0) NOT NULL DEFAULT LOCALTIMESTAMP(0)
+);
+
+-- Columns added after the first release (SEO update) — safe on existing databases
+ALTER TABLE services ADD COLUMN IF NOT EXISTS alt_text VARCHAR(255) NULL;
+ALTER TABLE gallery  ADD COLUMN IF NOT EXISTS alt_text VARCHAR(255) NULL;
+ALTER TABLE events   ADD COLUMN IF NOT EXISTS description VARCHAR(255) NULL;
+ALTER TABLE events   ADD COLUMN IF NOT EXISTS alt_text VARCHAR(255) NULL;
 
 CREATE TABLE IF NOT EXISTS testimonials (
   id         SERIAL PRIMARY KEY,

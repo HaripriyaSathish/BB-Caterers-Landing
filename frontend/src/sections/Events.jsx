@@ -37,10 +37,11 @@ export default function Events({ s, items }) {
             <Reveal as="article" key={ev.id} effect="flip-up" delay={i * 120} className="event-cell">
               <div className="event-card tilt" {...tiltHandlers()}>
                 <div className="event-card__media">
-                  {ev.image && <img src={ev.image} alt={ev.title} loading="lazy" />}
+                  {ev.image && <img src={ev.image} alt={ev.alt_text || ev.title} loading="lazy" />}
                 </div>
                 <span className="icon-badge event-card__icon"><Icon name={ev.icon} size={20} /></span>
                 <h3>{ev.title}</h3>
+                {ev.description && <p className="event-card__text">{ev.description}</p>}
               </div>
             </Reveal>
           ))}

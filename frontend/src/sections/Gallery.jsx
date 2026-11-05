@@ -37,7 +37,7 @@ export default function Gallery({ s, items }) {
           {items.map((g, i) => (
             <Reveal key={g.id} effect="wipe" delay={(i % 4) * 110} className="gallery__item">
               <button type="button" onClick={() => setOpen(i)} aria-label={`View ${g.title || 'photo'}`}>
-                <img src={g.image} alt={g.title || 'Food photo'} loading="lazy" />
+                <img src={g.image} alt={g.alt_text || g.title || 'Food photo'} loading="lazy" />
                 {g.title && (
                   <span className="gallery__caption">
                     <span>{g.title}</span>
@@ -58,7 +58,7 @@ export default function Gallery({ s, items }) {
             </button>
           )}
           <figure onClick={(e) => e.stopPropagation()} key={current.id}>
-            <img src={current.image} alt={current.title || ''} />
+            <img src={current.image} alt={current.alt_text || current.title || ''} />
             {current.title && <figcaption>{current.title} <span>{open + 1} / {count}</span></figcaption>}
           </figure>
           {count > 1 && (

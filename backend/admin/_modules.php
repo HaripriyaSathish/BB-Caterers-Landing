@@ -48,17 +48,20 @@ function list_modules(): array
                 'services_enabled' => ['type' => 'toggle', 'label' => 'Show this section on the website'],
                 'services_eyebrow' => ['type' => 'text', 'label' => 'Small label', 'half' => true],
                 'services_title'   => ['type' => 'text', 'label' => 'Section heading', 'half' => true],
+                'services_intro'   => ['type' => 'textarea', 'label' => 'Intro text (below the heading)', 'rows' => 3],
+                'services_intro_2' => ['type' => 'textarea', 'label' => 'Intro text — second paragraph', 'rows' => 2],
             ],
             'fields' => [
                 'title'       => ['type' => 'text', 'label' => 'Title', 'required' => true],
                 'description' => ['type' => 'text', 'label' => 'Short description'],
                 'icon'        => ['type' => 'icon', 'label' => 'Icon'],
                 'image'       => ['type' => 'image', 'label' => 'Image', 'required' => true, 'help' => 'Landscape image, about 800 × 450 px.'],
+                'alt_text'    => ['type' => 'text', 'label' => 'Image alt text (SEO)', 'counter' => 255, 'help' => 'Describes the photo for Google and screen readers.'],
             ],
         ],
         'gallery' => [
             'table' => 'gallery', 'title' => 'Food Gallery', 'singular' => 'Photo', 'icon' => 'images',
-            'folder' => 'gallery', 'intro' => 'Photos in the "A Feast for the Eyes" grid. Order decides the position (see help on each photo).',
+            'folder' => 'gallery', 'intro' => 'Photos in the gallery grid. Order decides the position (see help on each photo).',
             'columns' => ['image' => 'Photo', 'title' => 'Caption (hover text)'],
             'settings' => [
                 'gallery_enabled' => ['type' => 'toggle', 'label' => 'Show this section on the website'],
@@ -69,6 +72,7 @@ function list_modules(): array
                 'title'  => ['type' => 'text', 'label' => 'Caption (shown on hover)', 'placeholder' => 'Masala dosa with chutneys'],
                 'image'  => ['type' => 'image', 'label' => 'Photo', 'required' => true,
                              'help' => 'The grid follows the Figma layout in groups of 7: 1 = large, 2 = tall, 3–4 = stacked, 5 = wide, 6–7 = normal. Drag rows to choose positions.'],
+                'alt_text' => ['type' => 'text', 'label' => 'Image alt text (SEO)', 'counter' => 255, 'help' => 'Describes the photo for Google and screen readers. Leave empty to use the caption.'],
             ],
         ],
         'highlights' => [
@@ -78,7 +82,9 @@ function list_modules(): array
             'settings' => [
                 'highlight_enabled' => ['type' => 'toggle', 'label' => 'Show this section on the website'],
                 'highlight_title'   => ['type' => 'text', 'label' => 'Banner heading'],
+                'highlight_text'    => ['type' => 'textarea', 'label' => 'Sub-text (optional)', 'rows' => 2],
                 'highlight_image'   => ['type' => 'image', 'label' => 'Banner background', 'help' => 'Very wide image, about 2000 × 480 px.'],
+                'highlight_image_alt' => ['type' => 'text', 'label' => 'Banner image alt text (SEO)', 'counter' => 255],
             ],
             'fields' => [
                 'title' => ['type' => 'text', 'label' => 'Text', 'required' => true],
@@ -87,16 +93,18 @@ function list_modules(): array
         ],
         'events' => [
             'table' => 'events', 'title' => 'Events We Cater', 'singular' => 'Event', 'icon' => 'party-popper',
-            'folder' => 'events', 'intro' => 'The "Made for Moments Worth Celebrating" cards. Titles also fill the enquiry form\'s Event Type list.',
-            'columns' => ['image' => 'Image', 'title' => 'Title', 'icon' => 'Icon'],
+            'folder' => 'events', 'intro' => 'The "Made for Moments Worth Celebrating" cards. ',
+            'columns' => ['image' => 'Image', 'title' => 'Title', 'description' => 'Description', 'icon' => 'Icon'],
             'settings' => [
                 'events_enabled' => ['type' => 'toggle', 'label' => 'Show this section on the website'],
                 'events_title'   => ['type' => 'text', 'label' => 'Section heading', 'help' => 'Wrap words in *asterisks* to show them in gold, e.g. Made for *Moments* Worth *Celebrating*'],
             ],
             'fields' => [
-                'title' => ['type' => 'text', 'label' => 'Title', 'required' => true],
-                'icon'  => ['type' => 'icon', 'label' => 'Icon'],
-                'image' => ['type' => 'image', 'label' => 'Image', 'required' => true],
+                'title'       => ['type' => 'text', 'label' => 'Title', 'required' => true],
+                'description' => ['type' => 'textarea', 'label' => 'Description', 'rows' => 3],
+                'icon'        => ['type' => 'icon', 'label' => 'Icon'],
+                'image'       => ['type' => 'image', 'label' => 'Image', 'required' => true],
+                'alt_text'    => ['type' => 'text', 'label' => 'Image alt text (SEO)', 'counter' => 255, 'help' => 'Describes the photo for Google and screen readers.'],
             ],
         ],
         'features' => [
@@ -131,6 +139,21 @@ function list_modules(): array
                 'photo'   => ['type' => 'image', 'label' => 'Photo (optional)'],
             ],
         ],
+        'faqs' => [
+            'table' => 'faqs', 'title' => 'FAQ', 'singular' => 'Question', 'icon' => 'circle-help',
+            'folder' => 'misc', 'intro' => 'The "Frequently Asked Questions" section. Questions are also sent to Google as FAQ structured data.',
+            'columns' => ['question' => 'Question', 'answer' => 'Answer'],
+            'settings' => [
+                'faq_enabled' => ['type' => 'toggle', 'label' => 'Show this section on the website'],
+                'faq_eyebrow' => ['type' => 'text', 'label' => 'Small label', 'half' => true],
+                'faq_title'   => ['type' => 'text', 'label' => 'Section heading', 'half' => true],
+                'faq_text'    => ['type' => 'textarea', 'label' => 'Text beside the questions', 'rows' => 3],
+            ],
+            'fields' => [
+                'question' => ['type' => 'text', 'label' => 'Question', 'required' => true],
+                'answer'   => ['type' => 'textarea', 'label' => 'Answer', 'required' => true, 'rows' => 4],
+            ],
+        ],
         'menu' => [
             'table' => 'menu_items', 'title' => 'Header Menu', 'singular' => 'Menu link', 'icon' => 'menu',
             'folder' => 'misc', 'intro' => 'Links in the top navigation and the footer "Explore" column.',
@@ -158,6 +181,7 @@ function settings_groups(): array
                 'site_name'        => ['type' => 'text', 'label' => 'Business name', 'required' => true, 'half' => true],
                 'site_tagline'     => ['type' => 'text', 'label' => 'Tagline (under the logo)', 'half' => true],
                 'logo'             => ['type' => 'image', 'label' => 'Logo', 'help' => 'Transparent PNG works best.', 'half' => true],
+                'logo_alt'         => ['type' => 'text', 'label' => 'Logo alt text (SEO)', 'half' => true, 'counter' => 255],
                 'favicon'          => ['type' => 'image', 'label' => 'Favicon (browser tab icon)', 'help' => 'Square PNG or ICO, 64 × 64 px.', 'half' => true],
                 'apple_touch_icon' => ['type' => 'image', 'label' => 'Phone home-screen icon', 'help' => 'Square PNG, 180 × 180 px.', 'half' => true],
                 'meta_title'       => ['type' => 'text', 'label' => 'SEO title (browser tab & Google)', 'counter' => 60,
@@ -206,6 +230,8 @@ function settings_groups(): array
                 'enquiry_min_guests'      => ['type' => 'number', 'label' => 'Minimum guests accepted', 'half' => true, 'min' => 1, 'max' => 100000, 'required' => true],
                 'enquiry_max_guests'      => ['type' => 'number', 'label' => 'Maximum guests accepted', 'half' => true, 'min' => 1, 'max' => 100000, 'required' => true,
                                               'help' => 'The enquiry form rejects guest numbers outside this range.'],
+                'contact_event_types'     => ['type' => 'textarea', 'label' => 'Event Type options (one per line)', 'rows' => 5,
+                                              'help' => 'Options in the enquiry form "Event Type" list. Leave empty to use the Events We Cater titles + Other.'],
                 'contact_button_text'     => ['type' => 'text', 'label' => 'Form button text'],
                 'contact_success_message' => ['type' => 'textarea', 'label' => 'Message shown after the form is sent', 'rows' => 2],
             ],
@@ -216,8 +242,11 @@ function settings_groups(): array
             'fields' => [
                 'float_whatsapp_enabled' => ['type' => 'toggle', 'label' => 'Show WhatsApp button (uses the WhatsApp number from Contact Section)'],
                 'float_whatsapp_message' => ['type' => 'textarea', 'label' => 'WhatsApp pre-filled message', 'rows' => 2, 'placeholder' => 'Hello BB Caterers, I would like to enquire about catering.'],
+                'float_whatsapp_label'   => ['type' => 'text', 'label' => 'WhatsApp button label (screen readers & SEO)', 'placeholder' => 'Chat with BB Caterers on WhatsApp'],
                 'float_call_enabled'     => ['type' => 'toggle', 'label' => 'Show Call button (uses the phone number from Contact Section)'],
+                'float_call_label'       => ['type' => 'text', 'label' => 'Call button label', 'placeholder' => 'Call BB Caterers on 840 239 9450'],
                 'float_instagram_enabled' => ['type' => 'toggle', 'label' => 'Show Instagram button (uses the Instagram link from Contact Section)'],
+                'float_instagram_label'  => ['type' => 'text', 'label' => 'Instagram button label', 'placeholder' => 'BB Caterers on Instagram'],
                 'float_top_enabled'      => ['type' => 'toggle', 'label' => 'Show Back-to-top button'],
             ],
         ],

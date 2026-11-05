@@ -132,19 +132,19 @@ export default function Contact({ s, eventTypes, rules }) {
             </div>
           ) : (
             <form ref={formRef} className="enquiry-form" onSubmit={onSubmit} noValidate>
-              <Field id="enq-name" label="Full name" error={errors.name} touched={touched.name}>
+              <Field id="enq-name" label="Full Name" error={errors.name} touched={touched.name}>
                 <input type="text" placeholder="Your name" autoComplete="name" maxLength={r.name?.max ?? 60} {...aria('name')} />
               </Field>
-              <Field id="enq-email" label="Email address" error={errors.email} touched={touched.email}>
+              <Field id="enq-email" label="Email Address" error={errors.email} touched={touched.email}>
                 <input type="email" placeholder="you@example.com" autoComplete="email" inputMode="email" maxLength={r.email?.max ?? 150} {...aria('email')} />
               </Field>
-              <Field id="enq-phone" label="Phone number" error={errors.phone} touched={touched.phone}>
+              <Field id="enq-phone" label="Phone Number" error={errors.phone} touched={touched.phone}>
                 <input type="tel" placeholder="+91" autoComplete="tel" inputMode="tel" {...aria('phone')} />
               </Field>
-              <Field id="enq-event_date" label="Event date" error={errors.event_date} touched={touched.event_date}>
+              <Field id="enq-event_date" label="Event Date" error={errors.event_date} touched={touched.event_date}>
                 <input type="date" min={r.event_date?.min} max={r.event_date?.max} {...aria('event_date')} />
               </Field>
-              <Field id="enq-event_type" label="Event type" error={errors.event_type} touched={touched.event_type}>
+              <Field id="enq-event_type" label="Event Type" error={errors.event_type} touched={touched.event_type}>
                 <select {...aria('event_type')}>
                   <option value="">Select</option>
                   {eventTypes.map((t) => <option key={t} value={t}>{t}</option>)}
@@ -152,7 +152,7 @@ export default function Contact({ s, eventTypes, rules }) {
               </Field>
               <Field
                 id="enq-guests"
-                label="Number of guests"
+                label="Number of Guests"
                 error={errors.guests}
                 touched={touched.guests}
               >

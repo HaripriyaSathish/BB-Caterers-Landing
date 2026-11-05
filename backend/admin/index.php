@@ -17,6 +17,7 @@ $content = [
     ['Events', 'events', 'party-popper', 'module.php?m=events'],
     ['Why choose us', 'features', 'award', 'module.php?m=features'],
     ['Testimonials', 'testimonials', 'message-square-quote', 'module.php?m=testimonials'],
+    ['FAQs', 'faqs', 'circle-help', 'module.php?m=faqs'],
 ];
 $recent = DB::all('SELECT id, name, event_type, event_date, guests, status, created_at FROM enquiries ORDER BY created_at DESC LIMIT 6');
 $upcoming = DB::all("SELECT id, name, event_type, event_date, guests, status FROM enquiries WHERE event_date >= ? AND status IN ('new','contacted','confirmed') ORDER BY event_date LIMIT 5", [date('Y-m-d')]);

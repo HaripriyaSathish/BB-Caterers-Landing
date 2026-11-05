@@ -14,6 +14,7 @@ import Highlight from '../sections/Highlight'
 import Events from '../sections/Events'
 import Features from '../sections/Features'
 import Testimonials from '../sections/Testimonials'
+import Faq from '../sections/Faq'
 import Contact from '../sections/Contact'
 
 export default function Home() {
@@ -33,7 +34,7 @@ export default function Home() {
     )
   }
 
-  const { settings: s, menu, hero, services, gallery, highlights, events, features, testimonials, event_types, form_rules } = data
+  const { settings: s, menu, hero, services, gallery, highlights, events, features, faqs = [], testimonials, event_types, form_rules } = data
 
   return (
     <div className="site" style={s.theme_page_bg ? { '--page-bg': `url("${s.theme_page_bg}")` } : undefined}>
@@ -48,6 +49,7 @@ export default function Home() {
         {s.events_enabled && <Events s={s} items={events} />}
         {s.features_enabled && <Features s={s} items={features} />}
         {s.testimonials_enabled && <Testimonials s={s} items={testimonials} />}
+        {s.faq_enabled && <Faq s={s} items={faqs} />}
         {s.contact_enabled && <Contact s={s} eventTypes={event_types} rules={form_rules} />}
       </main>
       <Footer settings={s} menu={menu} services={services} />

@@ -37,6 +37,8 @@ export default function Contact({ s, eventTypes, rules }) {
   const onChange = (e) => {
     const { name, value } = e.target
     let v = value
+    // Name: letters only (plus space . ' -) — digits and symbols are dropped as you type
+    if (name === 'name') v = value.replace(/[^\p{L}\p{M} .'-]/gu, '')
     if (name === 'guests') v = value.replace(/\D/g, '').slice(0, 6)
     if (name === 'phone') v = value.replace(/[^\d+\s()-]/g, '').slice(0, 16)
     setValues((p) => ({ ...p, [name]: v }))

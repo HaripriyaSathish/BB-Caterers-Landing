@@ -1,0 +1,2 @@
+.env
+database/backup-*.sql

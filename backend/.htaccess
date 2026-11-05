@@ -1,0 +1,21 @@
+# Apache / XAMPP / cPanel protection for the backend
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Block private folders and include files
+  RewriteRule ^(config|core|database)(/|$) - [F,L]
+  RewriteRule (^|/)_[^/]*\.php$ - [F,L]
+  RewriteRule ^admin/partials/ - [F,L]
+  RewriteRule ^router\.php$ - [F,L]
+  # /admin → /admin/
+  RewriteRule ^admin$ admin/ [R=301,L]
+</IfModule>
+
+<FilesMatch "\.(sql|md)$">
+  Require all denied
+</FilesMatch>
+# .env, .env.example, .gitignore, .htaccess …
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>

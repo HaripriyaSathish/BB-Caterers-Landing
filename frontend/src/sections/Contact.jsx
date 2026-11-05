@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
-import { AlertCircle, ArrowRight, CheckCircle2, Instagram, Loader2, Mail, MapPin, Phone } from 'lucide-react'
+import { AlertCircle, ArrowRight, CheckCircle2, Loader2, MapPin } from 'lucide-react'
+import { InstagramIcon, LotusIcon, MailFilledIcon, PhoneIcon } from '../components/common/BrandIcons'
 import Reveal from '../components/common/Reveal'
 import SectionHeading from '../components/common/SectionHeading'
 import { sendEnquiry } from '../services/api'
@@ -12,7 +13,7 @@ function Field({ id, label, error, touched, children, full, hint }) {
   const show = touched && error
   return (
     <div className={`form-field ${full ? 'form-field--full' : ''} ${show ? 'has-error' : ''} ${touched && !error ? 'is-valid' : ''}`}>
-      <label htmlFor={id}>{label} <span aria-hidden="true">*</span></label>
+      <label htmlFor={id}>{label}</label>
       {children}
       {show ? (
         <small className="form-field__error" id={`${id}-error`} role="alert"><AlertCircle size={14} /> {error}</small>
@@ -75,11 +76,11 @@ export default function Contact({ s, eventTypes, rules }) {
     value: values[name],
     onChange,
     onBlur,
+    'aria-required': true,
     'aria-invalid': touched[name] && errors[name] ? true : undefined,
     'aria-describedby': touched[name] && errors[name] ? `enq-${name}-error` : undefined,
   })
   const r = rules || {}
-  const msgLen = values.message.trim().length
 
   return (
     <section id="contact" className="section contact">
@@ -90,25 +91,25 @@ export default function Contact({ s, eventTypes, rules }) {
           <ul className="contact__list">
             {s.contact_phone && (
               <Reveal as="li" effect="fade-right" delay={200}>
-                <span className="icon-badge icon-badge--sm"><Phone size={18} fill="currentColor" strokeWidth={0} /></span>
+                <span className="contact__icon"><PhoneIcon size={20} /></span>
                 <a href={telHref(s.contact_phone)}>{s.contact_phone}</a>
               </Reveal>
             )}
             {s.contact_email && (
               <Reveal as="li" effect="fade-right" delay={300}>
-                <span className="icon-badge icon-badge--sm"><Mail size={18} /></span>
+                <span className="contact__icon"><MailFilledIcon size={21} /></span>
                 <a href={`mailto:${s.contact_email}`}>{s.contact_email}</a>
               </Reveal>
             )}
             {s.contact_instagram && (
               <Reveal as="li" effect="fade-right" delay={400}>
-                <span className="icon-badge icon-badge--sm"><Instagram size={18} /></span>
+                <span className="contact__icon"><InstagramIcon size={20} /></span>
                 <a href={s.contact_instagram_url || '#'} target="_blank" rel="noopener noreferrer">{s.contact_instagram}</a>
               </Reveal>
             )}
             {s.contact_address && (
               <Reveal as="li" effect="fade-right" delay={500}>
-                <span className="icon-badge icon-badge--sm"><MapPin size={17} /></span>
+                <span className="contact__icon"><MapPin size={20} /></span>
                 <span>{s.contact_address}</span>
               </Reveal>
             )}
@@ -118,7 +119,7 @@ export default function Contact({ s, eventTypes, rules }) {
         <Reveal effect="fade-left" delay={100} className="contact__card">
           <span className="contact__corner" aria-hidden="true" />
           <span className="contact__arc" aria-hidden="true" />
-          {s.theme_divider && <img className="contact__lotus" src={s.theme_divider} alt="" aria-hidden="true" loading="lazy" />}
+          <span className="contact__lotus" aria-hidden="true"><LotusIcon size={32} /></span>
 
           {status.state === 'success' ? (
             <div className="form-success" role="status">
@@ -137,7 +138,7 @@ export default function Contact({ s, eventTypes, rules }) {
               <Field id="enq-email" label="Email address" error={errors.email} touched={touched.email}>
                 <input type="email" placeholder="you@example.com" autoComplete="email" inputMode="email" maxLength={r.email?.max ?? 150} {...aria('email')} />
               </Field>
-              <Field id="enq-phone" label="Phone number" error={errors.phone} touched={touched.phone} hint="10-digit mobile number">
+              <Field id="enq-phone" label="Phone number" error={errors.phone} touched={touched.phone}>
                 <input type="tel" placeholder="+91" autoComplete="tel" inputMode="tel" {...aria('phone')} />
               </Field>
               <Field id="enq-event_date" label="Event date" error={errors.event_date} touched={touched.event_date}>
@@ -154,13 +155,11 @@ export default function Contact({ s, eventTypes, rules }) {
                 label="Number of guests"
                 error={errors.guests}
                 touched={touched.guests}
-                hint={r.guests ? `${r.guests.min} – ${Number(r.guests.max).toLocaleString('en-IN')} guests` : undefined}
               >
-                <input type="text" inputMode="numeric" placeholder={`e.g. ${Math.max(150, r.guests?.min ?? 0)}`} {...aria('guests')} />
+                <input type="text" inputMode="numeric" placeholder="e.g. 150" {...aria('guests')} />
               </Field>
               <Field id="enq-message" label="Message" error={errors.message} touched={touched.message} full>
-                <textarea rows={4} placeholder="Tell us about your menu ideas" maxLength={r.message?.max ?? 1000} {...aria('message')} />
-                <span className={`char-count ${msgLen > (r.message?.max ?? 1000) ? 'is-over' : ''}`}>{msgLen} / {r.message?.max ?? 1000}</span>
+                <textarea rows={3} placeholder="Tell us about your menu ideas" maxLength={r.message?.max ?? 1000} {...aria('message')} />
               </Field>
 
               {/* Honeypot — hidden from people, bots fill it */}

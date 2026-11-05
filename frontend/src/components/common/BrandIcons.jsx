@@ -21,6 +21,26 @@ export function InstagramIcon({ size = 24 }) {
   )
 }
 
+/** Filled envelope with a cut-out fold (Figma contact icon). */
+export function MailFilledIcon({ size = 20 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="2.5" y="5" width="19" height="14" rx="2" fill="currentColor" />
+      <path d="m3.6 6.6 8.4 6.1 8.4-6.1" fill="none" stroke="var(--icon-cut, #0d3a24)" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+/** Small gold lotus used on the enquiry card. */
+export function LotusIcon({ size = 30 }) {
+  return (
+    <svg width={size} height={size * 0.62} viewBox="0 0 40 25" fill="currentColor" aria-hidden="true">
+      <path d="M20 0c3.2 4.2 4.6 9.6 3.6 15.2-.6 3.4-2 6.3-3.6 8.3-1.6-2-3-4.9-3.6-8.3C15.4 9.6 16.8 4.2 20 0Z" />
+      <path d="M2 9.5c6.4-.3 11.9 2.4 15.5 7.2 1.2 1.6 2 3.4 2.5 5.3-4.7.2-9.4-1.5-12.9-5A15.7 15.7 0 0 1 2 9.5Zm36 0a15.7 15.7 0 0 1-5.1 7.5c-3.5 3.5-8.2 5.2-12.9 5 .5-1.9 1.3-3.7 2.5-5.3C26.1 11.9 31.6 9.2 38 9.5Z" opacity=".85" />
+    </svg>
+  )
+}
+
 export function PhoneIcon({ size = 22 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

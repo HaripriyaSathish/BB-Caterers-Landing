@@ -74,19 +74,27 @@ final class DB
                     $dsn .= ";$k=$v"; // sslmode, channel_binding, … are passed straight to libpq
                 }
             }
-            // Neon routes by SNI; older libpq builds can't send it, so name the endpoint explicitly
-            // (endpoint id = first part of the host without "-pooler"). Harmless for newer clients.
-            if (preg_match('/^(ep-[a-z0-9-]+?)(-pooler)?\./', (string) $c['host'], $m) && str_ends_with((string) $c['host'], '.neon.tech')) {
-                $dsn .= ";options='endpoint=" . $m[1] . "'";
-            }
-            try {
-                $pdo = new PDO($dsn, $c['user'], $c['password'], $opts);
-            } catch (PDOException $e) {
-                // Older libpq builds (e.g. XAMPP) don't know channel_binding; sslmode=require still encrypts
-                if (!str_contains($e->getMessage(), 'channel_binding')) {
-                    throw $e;
+            // Connect normally first (modern libpq on Render sends SNI and supports channel_binding).
+            // Only for older libpq builds (e.g. XAMPP) retry with the fallbacks Neon asks for.
+            $attempt = $dsn;
+            for ($try = 0; ; $try++) {
+                try {
+                    $pdo = new PDO($attempt, $c['user'], $c['password'], $opts);
+                    break;
+                } catch (PDOException $e) {
+                    $msg = $e->getMessage();
+                    if ($try < 3 && str_contains($msg, 'channel_binding') && str_contains($attempt, 'channel_binding')) {
+                        // libpq < 13: no channel_binding — sslmode=require still encrypts the connection
+                        $attempt = preg_replace('/;channel_binding=[^;]*/', '', $attempt);
+                    } elseif ($try < 3 && str_contains($msg, 'Endpoint ID is not specified')
+                        && preg_match('/^(ep-[a-z0-9-]+?)(-pooler)?\./', (string) $c['host'], $m)
+                        && !str_contains($attempt, 'endpoint=')) {
+                        // libpq without SNI: name the Neon endpoint explicitly (id = host prefix without "-pooler")
+                        $attempt .= ";options='endpoint=" . $m[1] . "'";
+                    } else {
+                        throw $e;
+                    }
                 }
-                $pdo = new PDO(preg_replace('/;channel_binding=[^;]*/', '', $dsn), $c['user'], $c['password'], $opts);
             }
             $pdo->exec("SET TIME ZONE '" . str_replace("'", '', (string) config('timezone', 'Asia/Kolkata')) . "'");
         } else {

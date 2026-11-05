@@ -5,6 +5,7 @@ set -e
 PORT="${PORT:-10000}"
 sed -i "s/^Listen .*/Listen ${PORT}/" /etc/apache2/ports.conf
 export PORT
+echo "ServerName localhost" > /etc/apache2/conf-enabled/servername.conf
 
 # Pass Render's environment variables through to PHP under Apache
 for v in DATABASE_URL APP_KEY APP_URL FRONTEND_URL CORS_ORIGINS APP_DEBUG APP_TIMEZONE MEDIA_STORAGE DB_DRIVER; do

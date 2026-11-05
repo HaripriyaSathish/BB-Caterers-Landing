@@ -8,8 +8,6 @@ Options -Indexes
   RewriteRule (^|/)_[^/]*\.php$ - [F,L]
   RewriteRule ^admin/partials/ - [F,L]
   RewriteRule ^router\.php$ - [F,L]
-  # /admin → /admin/
-  RewriteRule ^admin$ admin/ [R=301,L]
 </IfModule>
 
 <FilesMatch "\.(sql|md)$">

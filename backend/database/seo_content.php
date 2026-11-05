@@ -4,17 +4,27 @@
  * install.php applies it ONCE to an existing database (tracked by the
  * setting seo_content_version), so later edits made in the admin panel are kept.
  * Fresh installs get the same text from the seed rows in schema.sql.
+ * A database already on an older version only receives the later 'patches'.
+ * Paragraph text may contain **keyword** — shown in bold on the website.
  */
 return [
-  'version' => 1,
+  'version' => 2,
+  'patches' => [
+    // v2: keywords highlighted in the SEO document (bold)
+    2 => ['settings' => [
+      'about_text' => 'Bharatha Bhojanam means “the food of Bharat”. BB Caterers is a **Fontana, CA caterer** bringing generations-old recipes to your table: slow-ground podis, crisp dosas off the tawa, and festive sweets made the way our grandmothers made them.',
+      'about_text_2' => 'As an **Indian food catering** service focused on **South Indian catering**, we cook every menu fresh, serve it with warmth and design it around your celebration, whether it is a wedding, a birthday party or a corporate event.',
+      'services_intro' => 'Discover **Indian catering services** built around South Indian favourites: live dosa stations, snacks, podi varieties, festive sweets and chaat, all prepared fresh for your celebration in Fontana, CA.',
+    ]],
+  ],
   'settings' => [
     'meta_title' => 'Indian Catering Services in Fontana, CA | BB Caterers',
     'meta_description' => 'BB Caterers offers authentic Indian catering in Fontana, CA: live dosa stations, chaat, snacks and sweets for weddings, parties and corporate events.',
     'logo_alt' => 'BB Caterers (Bharatha Bhojanam) – Indian catering services in Fontana, CA',
-    'about_text' => 'Bharatha Bhojanam means “the food of Bharat”. BB Caterers is a Fontana, CA caterer bringing generations-old recipes to your table: slow-ground podis, crisp dosas off the tawa, and festive sweets made the way our grandmothers made them.',
-    'about_text_2' => 'As an Indian food catering service focused on South Indian catering, we cook every menu fresh, serve it with warmth and design it around your celebration, whether it is a wedding, a birthday party or a corporate event.',
+    'about_text' => 'Bharatha Bhojanam means “the food of Bharat”. BB Caterers is a **Fontana, CA caterer** bringing generations-old recipes to your table: slow-ground podis, crisp dosas off the tawa, and festive sweets made the way our grandmothers made them.',
+    'about_text_2' => 'As an **Indian food catering** service focused on **South Indian catering**, we cook every menu fresh, serve it with warmth and design it around your celebration, whether it is a wedding, a birthday party or a corporate event.',
     'services_title' => 'South Indian Flavours, Made Fresh for Your Celebration',
-    'services_intro' => 'Discover Indian catering services built around South Indian favourites: live dosa stations, snacks, podi varieties, festive sweets and chaat, all prepared fresh for your celebration in Fontana, CA.',
+    'services_intro' => 'Discover **Indian catering services** built around South Indian favourites: live dosa stations, snacks, podi varieties, festive sweets and chaat, all prepared fresh for your celebration in Fontana, CA.',
     'services_intro_2' => 'Whether you\'re planning a family function or a large gathering, we customise every menu around your guests, with vegetarian and South Indian options available.',
     'gallery_eyebrow' => 'Our Gallery',
     'gallery_title' => 'A Taste of Our Catering, Served Fresh',

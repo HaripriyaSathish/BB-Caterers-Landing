@@ -5,7 +5,7 @@ import Reveal from '../components/common/Reveal'
 import SectionHeading from '../components/common/SectionHeading'
 import { sendEnquiry } from '../services/api'
 import { FIELDS, validateAll } from '../utils/validation'
-import { telHref } from '../utils/format'
+import { rich, telHref } from '../utils/format'
 
 const EMPTY = { name: '', email: '', phone: '', event_date: '', event_type: '', guests: '', message: '', website: '' }
 
@@ -87,7 +87,7 @@ export default function Contact({ s, eventTypes, rules }) {
       <div className="container contact__grid">
         <div className="contact__info">
           <SectionHeading eyebrow={s.contact_eyebrow} title={s.contact_title} align="left" italic eyebrowStyle="green" />
-          {s.contact_text && <Reveal as="p" effect="fade-up" delay={150} className="contact__text">{s.contact_text}</Reveal>}
+          {s.contact_text && <Reveal as="p" effect="fade-up" delay={150} className="contact__text">{rich(s.contact_text)}</Reveal>}
           <ul className="contact__list">
             {s.contact_phone && (
               <Reveal as="li" effect="fade-right" delay={200}>

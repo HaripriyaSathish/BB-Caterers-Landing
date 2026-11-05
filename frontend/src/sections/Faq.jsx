@@ -2,6 +2,7 @@ import { useId, useState } from 'react'
 import { Plus } from 'lucide-react'
 import Reveal from '../components/common/Reveal'
 import SectionHeading from '../components/common/SectionHeading'
+import { rich } from '../utils/format'
 
 /** FAQ accordion (Admin → FAQ). Answers stay in the page so search engines can read them. */
 export default function Faq({ s, items }) {
@@ -16,7 +17,7 @@ export default function Faq({ s, items }) {
     mainEntity: items.map((f) => ({
       '@type': 'Question',
       name: f.question,
-      acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      acceptedAnswer: { '@type': 'Answer', text: f.answer.replace(/\*\*/g, '') },
     })),
   }
 
@@ -26,7 +27,7 @@ export default function Faq({ s, items }) {
       <div className="container faq__grid">
         <div className="faq__intro">
           <SectionHeading eyebrow={s.faq_eyebrow} title={s.faq_title} align="left" italic eyebrowStyle="green" />
-          {s.faq_text && <Reveal as="p" effect="fade-up" delay={150}>{s.faq_text}</Reveal>}
+          {s.faq_text && <Reveal as="p" effect="fade-up" delay={150}>{rich(s.faq_text)}</Reveal>}
         </div>
         <div className="faq__list">
           {items.map((f, i) => {
@@ -49,7 +50,7 @@ export default function Faq({ s, items }) {
                 </h3>
                 <div className="faq-item__panel" id={panelId} role="region" aria-labelledby={btnId}>
                   <div className="faq-item__inner">
-                    <p>{f.answer}</p>
+                    <p>{rich(f.answer)}</p>
                   </div>
                 </div>
               </Reveal>

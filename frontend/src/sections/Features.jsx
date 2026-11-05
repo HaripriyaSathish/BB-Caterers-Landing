@@ -2,6 +2,7 @@ import Reveal from '../components/common/Reveal'
 import Divider from '../components/common/Divider'
 import SectionHeading from '../components/common/SectionHeading'
 import Icon from '../components/common/Icon'
+import { rich } from '../utils/format'
 
 export default function Features({ s, items }) {
   if (!items.length) return null
@@ -15,7 +16,7 @@ export default function Features({ s, items }) {
             <Reveal as="article" key={f.id} effect="fade-up" delay={i * 90} className="feature-card">
               <span className="icon-badge icon-badge--ring"><Icon name={f.icon} size={30} strokeWidth={1.6} /></span>
               <h3>{f.title}</h3>
-              {f.description && <p>{f.description}</p>}
+              {f.description && <p>{rich(f.description)}</p>}
             </Reveal>
           ))}
         </div>

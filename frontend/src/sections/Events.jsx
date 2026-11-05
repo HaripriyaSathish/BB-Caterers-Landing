@@ -1,7 +1,7 @@
 import Reveal from '../components/common/Reveal'
 import Divider from '../components/common/Divider'
 import Icon from '../components/common/Icon'
-import { animatedWords } from '../utils/format'
+import { animatedWords, rich } from '../utils/format'
 import useParallax from '../hooks/useParallax'
 import tiltHandlers from '../hooks/useTilt'
 
@@ -41,7 +41,7 @@ export default function Events({ s, items }) {
                 </div>
                 <span className="icon-badge event-card__icon"><Icon name={ev.icon} size={20} /></span>
                 <h3>{ev.title}</h3>
-                {ev.description && <p className="event-card__text">{ev.description}</p>}
+                {ev.description && <p className="event-card__text">{rich(ev.description)}</p>}
               </div>
             </Reveal>
           ))}

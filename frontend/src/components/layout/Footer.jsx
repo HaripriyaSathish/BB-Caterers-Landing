@@ -2,7 +2,7 @@ import { ArrowRight, Instagram, Mail, MapPin, PhoneCall } from 'lucide-react'
 import SmartLink from '../common/SmartLink'
 import Reveal from '../common/Reveal'
 import { Brand } from './Header'
-import { telHref } from '../../utils/format'
+import { rich, telHref } from '../../utils/format'
 import useParallax from '../../hooks/useParallax'
 
 export default function Footer({ settings: s, menu, services }) {
@@ -30,7 +30,7 @@ export default function Footer({ settings: s, menu, services }) {
       <div className="container container--wide footer-grid">
         <Reveal effect="fade-up" className="footer-col footer-col--brand">
           <Brand settings={s} light />
-          {s.footer_about && <p>{s.footer_about}</p>}
+          {s.footer_about && <p>{rich(s.footer_about)}</p>}
         </Reveal>
 
         <Reveal effect="fade-up" delay={100} className="footer-col">

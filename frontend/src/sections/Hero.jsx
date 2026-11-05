@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import SmartLink from '../components/common/SmartLink'
-import { pad2 } from '../utils/format'
+import { pad2, rich } from '../utils/format'
 import { useScrollY } from '../hooks/useScroll'
 
 export default function Hero({ slides, autoplaySeconds = 6 }) {
@@ -92,7 +92,7 @@ export default function Hero({ slides, autoplaySeconds = 6 }) {
                 </Tag>
               )
             })()}
-            {s.subtitle && <p className="hero__subtitle">{s.subtitle}</p>}
+            {s.subtitle && <p className="hero__subtitle">{rich(s.subtitle)}</p>}
             <div className="hero__actions">
               {s.btn1_text && (
                 <SmartLink href={s.btn1_link || '#services'} className="btn btn--gold btn--lg" tabIndex={i === index ? 0 : -1}>

@@ -1,5 +1,6 @@
 import Reveal from '../components/common/Reveal'
 import Icon from '../components/common/Icon'
+import { rich } from '../utils/format'
 
 export default function Highlight({ s, items }) {
   return (
@@ -12,7 +13,7 @@ export default function Highlight({ s, items }) {
             <Reveal effect="grow" delay={300} className="highlight__rule" aria-hidden="true">
               <svg width="22" height="12" viewBox="0 0 22 12" fill="currentColor"><path d="M11 0c1.6 3.4 5 6 11 7-4 .6-7.4 2.4-11 5C7.4 9.4 4 7.6 0 7c6-1 9.4-3.6 11-7Z" /></svg>
             </Reveal>
-            {s.highlight_text && <Reveal as="p" effect="fade-up" delay={250} className="highlight__text">{s.highlight_text}</Reveal>}
+            {s.highlight_text && <Reveal as="p" effect="fade-up" delay={250} className="highlight__text">{rich(s.highlight_text)}</Reveal>}
             {items.length > 0 && (
               <ul className="highlight__list">
                 {items.map((h, i) => (

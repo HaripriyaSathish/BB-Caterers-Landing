@@ -76,6 +76,19 @@ function apply_seo_content(PDO $pdo, bool $pg): string
 
     $pdo->beginTransaction();
     try {
+        if ($current >= 1) {
+            // Already has the content: apply only the later patches, keep everything else as edited
+            foreach ($content['patches'] ?? [] as $v => $patch) {
+                if ($v > $current) {
+                    foreach ($patch['settings'] ?? [] as $k => $val) {
+                        $upsert->execute([$k, $val, $now]);
+                    }
+                }
+            }
+            $upsert->execute(['seo_content_version', (string) $content['version'], $now]);
+            $pdo->commit();
+            return "SEO content updated to v{$content['version']}.";
+        }
         foreach ($content['settings'] as $k => $v) {
             $upsert->execute([$k, $v, $now]);
         }

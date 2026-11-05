@@ -501,3 +501,7 @@
   .highlight__rule:has(+ .highlight__text) { margin-bottom: min(1vw, 14px); }
   .highlight__text { max-width: none; margin: 0 0 min(1.5vw, 22px); font-size: clamp(13px, 1.05vw, 15px); line-height: 1.4; }
 }
+
+/* SEO keywords (**word** in admin text) */
+.kw { font-weight: 700; color: var(--green-ink); }
+.hero .kw, .site-footer .kw { color: inherit; }

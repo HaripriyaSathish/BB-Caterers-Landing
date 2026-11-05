@@ -48,7 +48,7 @@ function list_modules(): array
                 'services_enabled' => ['type' => 'toggle', 'label' => 'Show this section on the website'],
                 'services_eyebrow' => ['type' => 'text', 'label' => 'Small label', 'half' => true],
                 'services_title'   => ['type' => 'text', 'label' => 'Section heading', 'half' => true],
-                'services_intro'   => ['type' => 'textarea', 'label' => 'Intro text (below the heading)', 'rows' => 3],
+                'services_intro'   => ['type' => 'textarea', 'label' => 'Intro text (below the heading)', 'rows' => 3, 'help' => 'Wrap SEO keywords in **double asterisks** to show them in bold.'],
                 'services_intro_2' => ['type' => 'textarea', 'label' => 'Intro text — second paragraph', 'rows' => 2],
             ],
             'fields' => [
@@ -151,7 +151,7 @@ function list_modules(): array
             ],
             'fields' => [
                 'question' => ['type' => 'text', 'label' => 'Question', 'required' => true],
-                'answer'   => ['type' => 'textarea', 'label' => 'Answer', 'required' => true, 'rows' => 4],
+                'answer'   => ['type' => 'textarea', 'label' => 'Answer', 'required' => true, 'rows' => 4, 'help' => 'Wrap SEO keywords in **double asterisks** to show them in bold.'],
             ],
         ],
         'menu' => [
@@ -207,8 +207,8 @@ function settings_groups(): array
                 'about_enabled' => ['type' => 'toggle', 'label' => 'Show this section on the website'],
                 'about_eyebrow' => ['type' => 'text', 'label' => 'Small label', 'half' => true],
                 'about_title'   => ['type' => 'text', 'label' => 'Heading', 'half' => true],
-                'about_text'    => ['type' => 'textarea', 'label' => 'First paragraph', 'rows' => 4],
-                'about_text_2'  => ['type' => 'textarea', 'label' => 'Second paragraph', 'rows' => 3],
+                'about_text'    => ['type' => 'textarea', 'label' => 'First paragraph', 'rows' => 4, 'help' => 'Wrap SEO keywords in **double asterisks** to show them in bold.'],
+                'about_text_2'  => ['type' => 'textarea', 'label' => 'Second paragraph', 'rows' => 3, 'help' => 'Wrap SEO keywords in **double asterisks** to show them in bold.'],
                 'about_image_1' => ['type' => 'image', 'label' => 'Main photo', 'half' => true],
                 'about_image_2' => ['type' => 'image', 'label' => 'Small overlapping photo', 'half' => true],
             ],

@@ -34,6 +34,17 @@ export function animatedWords(text, goldClass = 'text-gold') {
   })
 }
 
+/**
+ * Paragraph text: **keyword** → <strong> (SEO keywords highlighted in the content document).
+ * Typed in the admin as **double asterisks**.
+ */
+export function rich(text) {
+  if (!text) return null
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.length > 4 && part.startsWith('**') && part.endsWith('**') ? <strong key={i} className="kw">{part.slice(2, -2)}</strong> : part,
+  )
+}
+
 /** Remove the *markers* for plain-text use (alt text, aria labels). */
 export const plain = (text = '') => text.replace(/\*/g, '')
 
